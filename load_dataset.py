@@ -11,7 +11,7 @@ def save_dataset(path):
 	    f.extend(filenames)
 	    break
 
-	np_dir = "../data/data100_np"
+	np_dir = "data50_np"
 	save_path = path.replace(os.path.dirname(path), np_dir)
 	print("save path", save_path)
 
@@ -48,12 +48,6 @@ def load_dataset(path):
 	print(type(dataset))
 	return dataset
 
-'''for i in range(1,6):
-	batch = str(i)
-	print("batch ", batch)
-	save_dataset("../data/data100/" + batch)'''
-#dataset = load_dataset("data50_np/1")
-#print(dataset.shape)
-
+#save_dataset("data50/2")
 
 
