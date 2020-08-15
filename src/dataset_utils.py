@@ -1,24 +1,28 @@
 from os import walk
 import os
 import numpy as np
-import tensorflow as tf
 
 def save_dataset(path):
 
+	import tensorflow as tf
 
 	f = []
 	for (dirpath, dirnames, filenames) in walk(path):
-	    f.extend(filenames)
-	    break
+		f.extend(filenames)
+		print("Extend ", filenames)
+		break
 
-	np_dir = "../data/data100_np"
-	save_path = path.replace(os.path.dirname(path), np_dir)
+	
+	np_dir = "../data/faces_np"
+	save_path = np_dir
 	print("save path", save_path)
 
 	for img in f:
 
-		print("saving image ", img)
+		print("saving image ", img)	
 		full_path = path + "/" + img
+		print("full path ", full_path)
+		print("save path ", save_path)
 		pil_img = tf.keras.preprocessing.image.load_img(full_path)
 		np_array = tf.keras.preprocessing.image.img_to_array(pil_img)
 
@@ -48,12 +52,7 @@ def load_dataset(path):
 	print(type(dataset))
 	return dataset
 
-'''for i in range(1,6):
-	batch = str(i)
-	print("batch ", batch)
-	save_dataset("../data/data100/" + batch)'''
-#dataset = load_dataset("data50_np/1")
-#print(dataset.shape)
 
+if __name__ == '__main__':
 
-
+	save_dataset("../data/faces")
