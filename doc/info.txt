@@ -1,2 +1,5 @@
 train: 02000; 12000-69000
-test: 00000; 03000-110000
+test: 00000; 03000-11000
+
+pos train data: faces_np
+neg train data: cut_n_paste_np

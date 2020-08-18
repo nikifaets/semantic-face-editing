@@ -15,12 +15,12 @@ class Autoencoder:
 		self.y_test = test
 		self.kernel_size = (3,3)
 		self.model = None
-
+		self.net = None
 		self.model_created = False
 
 	def encode(self, input):
 
-		conv1 = layers.Conv2D(64, (3,3), activation='relu', padding='same')(input)
+		conv1 = layers.Conv2D(64, (3,3), activation='relu', padding='same', name="autoencoder_input")(input)
 		pool1 = layers.MaxPooling2D((2,2))(conv1)
 		conv2 = layers.Conv2D(64, (3,3), activation='relu', padding='same')(pool1)
 		pool2 = layers.MaxPooling2D(2,2)(conv2)
@@ -40,8 +40,9 @@ class Autoencoder:
 		upsampling3 = layers.UpSampling2D((2,2))(conv3)
 		conv4 = layers.Conv2D(64, self.kernel_size, activation='relu', padding='same')(upsampling3)
 
-		output = layers.Conv2D(3, (2,2), activation='relu', padding='same')(conv4)
-
+		output = layers.Conv2D(3, (2,2), activation='relu', padding='same', name='autoencoder_output')(conv4)
+		#output = layers.Flatten()(output)
+		#output = layers.Dense(1)(output)
 		return output
 
 
@@ -52,9 +53,9 @@ class Autoencoder:
 		input_layer = tf.keras.Input(shape=(self.width, self.height, 3))
 		latent_space = self.encode(input_layer)
 		output_layer = self.decode(latent_space)
-
-		self.model = keras.Model(inputs=input_layer, outputs=output_layer, name="model")
-		self.model.summary()
+		self.net = output_layer
+		self.model = keras.Model(inputs=input_layer, outputs=output_layer, name="autoencoder")
+	
 
 	def train_model(self, _batch_size, _epochs, _verbose):
 
@@ -77,6 +78,9 @@ class Autoencoder:
 
 		self.model.save_weights(filename)
 
+	def get_net(self):
+
+		return self.net
 
 	def load_model(self, filename):
 

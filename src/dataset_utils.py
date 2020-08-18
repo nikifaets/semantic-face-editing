@@ -13,7 +13,7 @@ def save_dataset(path):
 		break
 
 	
-	np_dir = "../data/faces_np"
+	np_dir = "../data/test_cut_np"
 	save_path = np_dir
 	print("save path", save_path)
 
@@ -52,7 +52,24 @@ def load_dataset(path):
 	print(type(dataset))
 	return dataset
 
+def shuffle_with_labels(dataset, labels):
+
+	labels = None
+	if labels == 1:
+		labels = np.ones(dataset.shape[0])
+
+	if labels == 0:
+
+		labels = np.zeros(dataset.shape[0])
+
+	
+	mapper = np.arange(dataset.shape[0])
+    
+	np.random.shuffle(mapper)
+	dataset = dataset[mapper]
+	
+
 
 if __name__ == '__main__':
 
-	save_dataset("../data/faces")
+	save_dataset("../data/test_cut")
