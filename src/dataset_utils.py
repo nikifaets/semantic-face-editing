@@ -29,6 +29,17 @@ def save_dataset(path):
 		#print("save path ", save_path + "/" + img.split(".")[0] + ".npy")
 		np.save(save_path + "/" + img.split(".")[0], np_array)
 
+def normalize_pos(data):
+
+	#get data in range 0-1
+	data += abs(np.min(data))
+	data /= np.max(data)
+
+def normalize_tanh(data):
+
+	data -= np.median(data)
+	data /= np.max(abs(data))
+
 
 def load_dataset(path):
 	
@@ -49,25 +60,20 @@ def load_dataset(path):
 
 
 	dataset = np.asarray(dataset)
-	print(type(dataset))
 	return dataset
 
 def shuffle_with_labels(dataset, labels):
 
-	labels = None
-	if labels == 1:
-		labels = np.ones(dataset.shape[0])
-
-	if labels == 0:
-
-		labels = np.zeros(dataset.shape[0])
-
-	
 	mapper = np.arange(dataset.shape[0])
     
 	np.random.shuffle(mapper)
 	dataset = dataset[mapper]
+	labels = labels[mapper]
 	
+def shuffle(dataset):
+
+	mapper = np.arange(dataset.shape[0])
+	dataset = dataset[mapper]
 
 
 if __name__ == '__main__':
